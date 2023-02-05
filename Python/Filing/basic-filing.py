@@ -1,8 +1,9 @@
 import os
 
-
 def inputFilename():
+    # Input Filename
     fileName = input("Please Enter File Name \n")
+    # Absolute Directory
     filePath = (f"{os.getcwd()}\Filing\Files\{fileName}.txt")
     return filePath
 
@@ -10,7 +11,9 @@ def inputFilename():
 def readFile():
     try:
         filePath = inputFilename()
+        # Open file in Read Mode
         f = open(filePath, "r")
+        # Print File Content
         print(f.read())
         f.close()
     except:
@@ -20,15 +23,48 @@ def readFile():
 def appendFile():
     try:
         filePath = inputFilename()
+        # Open File in Append Mode
         file = open(filePath, "a")
+        # Enter number pf Records to be Added
         records = int(input("Please Enter Number of Records to be Entered \n"))
+
         for i in range(i, records):
             data = input("Enter Record", i + 1, "\n")
+            # Write Data to File
             file.write(data)
+            # Add a new Line
             file.write('\n')
         file.close()
     except:
         print("Error Occured")
+    return
+
+
+def editFile():
+    try:
+        filePath = inputFilename()
+        # File Line that needs to be updated
+        fileLine = int(input("Enter File Line to be Edited \n"))
+        # New Data that will replace the previous line data
+        data = input("Enter The Updated Data \n")
+        # Open File and Read All the Lines, File data will be Stored in a List(Array)
+        # Each Line is an Element in the List(Array) e.g [line1Data, line2Data]
+        f = open(filePath, "r")
+        fileData = f.readlines()
+        # Replace Element in the list that correspond to the Line and add a New Line Character
+        fileData[fileLine - 1] = data + '\n'
+        f.close()
+        # Remove the Exisiting File
+        os.remove(filePath)
+        # Create New File with same Name
+        newFile = open(filePath, "w")
+        # Write the new Data as Lines in the File
+        newFile.writelines(fileData)
+        newFile.close()
+
+    except:
+        print("Error Occured")
+
     return
 
 
@@ -39,26 +75,6 @@ def deleteFile():
 
     except:
         print("Error Occured")
-
-
-def editFile():
-    try:
-        filePath = inputFilename()
-        fileLine = int(input("Enter File Line to be Edited \n"))
-        data = input("Enter The Updated Data \n")
-        f = open(filePath, "r")
-        fileData = f.readlines()
-        fileData[fileLine - 1] = data + '\n'
-        f.close()
-        os.remove(filePath)
-        newFile = open(filePath, "w")
-        newFile.writelines(fileData)
-        newFile.close()
-
-    except:
-        print("Error Occured")
-
-    return
 
 
 def basicFiling():
